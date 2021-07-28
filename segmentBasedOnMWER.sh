@@ -4,8 +4,6 @@
 #
 ##############################################################################
 
-set -x -e
-
 if [ "$1" == "-h" ] ; then
          echo -e "usage:  $0 <source sgm file> <reference sgm file> <translation file> <sysid> <target language> <output sgm file> [normalize]\n"
          echo -e "This script performs segmentation of translation hypotheses based on multiple reference word error rate\n\n"
@@ -60,4 +58,3 @@ $SCRIPTDIR/hyp2sgm.py --source=$sourcesgmfile --id=$sysid --targetLang=${languag
 
 #rm -f $tmpmref $tmpresegmentedfile $tmptranslationfile
 
-set +x +e
