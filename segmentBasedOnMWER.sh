@@ -56,5 +56,7 @@ cd -
 echo "$SCRIPTDIR/hyp2sgm.py --source=$sourcesgmfile --id=$sysid --targetLang=${language} $tmpdir/$tmpresegmentedfile > $outputsgmfile"
 $SCRIPTDIR/hyp2sgm.py --source=$sourcesgmfile --id=$sysid --targetLang=${language} $tmpdir/$tmpresegmentedfile > $outputsgmfile
 
+rm $tmpdir/$tmpmref $tmpdir/$tmpresegmentedfile $tmpdir/$tmptranslationfile
+
 #rm -f $tmpmref $tmpresegmentedfile $tmptranslationfile
 
