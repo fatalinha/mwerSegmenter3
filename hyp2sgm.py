@@ -38,7 +38,7 @@ class SGMLRefParser(SGMLParser):
         attributes.append((attr, value))
 
     def start_refset(self, attributes):
-        raise ValueError("Error: input must be a srcset\n")
+        raise ValueError("Error: input must be a srcset\nattributes=" + str(attributes))
 
     def start_srcset(self, attributes):
         self.fpOut.write("<tstset")
@@ -47,7 +47,7 @@ class SGMLRefParser(SGMLParser):
         self.fpOut.write(">\n")
 
     def start_tstset(self, attributes):
-        raise ValueError("Error: input must be a srcset\n")
+        raise ValueError("Error: input must be a srcset\nattributes" + str(attributes))
 
     def start_doc(self, attributes):
         if self.verbose:
