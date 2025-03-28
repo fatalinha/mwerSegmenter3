@@ -21,17 +21,17 @@ class SGMLRefParser(SGMLParser):
         self.verbose = verbose
         
     def __writeAttributes(self, attributes):
-        for (attr, value) in attributes:
-            self.fpOut.write(" %s=\"%s\"" % (attr, value))
+        for attr, value in attributes:
+            self.fpOut.write(f' {attr}="{value}"')
 
     def __searchAttribute(self, attributes, attr):
-        for (a, value) in attributes:
+        for a, value in attributes:
             if a == attr:
                 return (a, value)
         return None
 
     def __setAttribute(self, attributes, attr, value):
-        for i in xrange(len(attributes)):
+        for i in range(len(attributes)):
             if attributes[i][0] == attr:
                 attributes[i] = (attr, value)
                 return
@@ -51,7 +51,7 @@ class SGMLRefParser(SGMLParser):
 
     def start_doc(self, attributes):
         if self.verbose:
-            verbosePrint("start_doc %s\n" % str(attributes))
+            verbosePrint(f"start_doc {str(attributes)}\n")
         self.fpOut.write("<doc")
         self.__setAttribute(attributes, "sysid", self.sysid)
         self.__writeAttributes(attributes)
@@ -75,7 +75,7 @@ class SGMLRefParser(SGMLParser):
         self.__writeAttributes(attributes)
         self.fpOut.write(">\n")
 
-        self.fpOut.write(self.fpIn.next())
+        self.fpOut.write(next(self.fpIn))
 
     def end_hl(self):
         if self.verbose:
@@ -123,15 +123,15 @@ def main():
     else:
         try:
             fpIn = open(args[0])
-        except IOError, ioError:
-            optionParser.error("couldn't open %s, %s" % (args[0], ioError[1]))
+        except IOError as ioError:
+            optionParser.error(f"couldn't open {args[0]}, {ioError}")
 
     if not options.sourceFilename:
         optionParser.error("a source filename should be given")
     try:
         fpSource = open(options.sourceFilename)
-    except IOError, ioError:
-        optionParser.error("couldn't open %s, %s" % (args[0], ioError[1]))
+    except IOError as ioError:
+        optionParser.error(f"couldn't open {options.sourceFilename}, {ioError}")
 
     if not options.targetLanguage:
         optionParser.error("a target language should be given")
@@ -144,8 +144,8 @@ def main():
     else:
         try:
             fpOut = open(options.outFilename, "w")
-        except IOError, ioError:
-            optionParser.error("couldn't open %s for writing, %s" % (options.outFilename, ioError[1]))
+        except IOError as ioError:
+            optionParser.error(f"couldn't open {options.outFilename} for writing, {ioError}")
 
     parser = SGMLRefParser(options.sysid, options.targetLanguage, fpIn, fpOut, options.verbose)
     parser.feed(fpSource.read())
