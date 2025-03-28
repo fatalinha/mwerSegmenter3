@@ -28,7 +28,7 @@ class ReferenceSet:
 
 class SGMLRefParser(SGMLParser):
     def __init__(self, referenceSet, verbose):
-        super.__init__(self)
+        super().__init__(self)
         self.referenceSet = referenceSet
         self.inSegment = False
         self.verbose = verbose
