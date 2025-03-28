@@ -9,7 +9,7 @@ The package contains:
 mwerSegmenter:         the C++ binary which performs the segmentation
 
 hyp2sgm.py
-sgm2mref.py :          two Python scripts to convert to/from SGML files
+sgm2mref.py :          two Python scripts to convert to/from SGML files (Updated to python 3)
 
 normalizeTextNIST.pl:  a perl script which can perform text normalization which
                        is used in NIST MT evaluations.
