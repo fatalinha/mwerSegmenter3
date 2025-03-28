@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 from sgmllib import SGMLParser
@@ -13,7 +13,7 @@ class ReferenceSet:
         self.keys = {}
 
     def addReference(self, key, reference):
-        if self.keys.has_key(key):
+        if key in self.keys:
             self.keys[key].append(reference)
         else:
             self.references.append([reference])
@@ -23,12 +23,12 @@ class ReferenceSet:
         for refSet in self.references:
             output.write(normalize(refSet[0]))
             for r in refSet[1:]:
-                output.write(" # %s" % normalize(r))
+                output.write(f" # {normalize(r)}")
             output.write("\n")
 
 class SGMLRefParser(SGMLParser):
     def __init__(self, referenceSet, verbose):
-        SGMLParser.__init__(self)
+        super.__init__(self)
         self.referenceSet = referenceSet
         self.inSegment = False
         self.verbose = verbose
@@ -36,7 +36,7 @@ class SGMLRefParser(SGMLParser):
 
     def start_doc(self, attributes):
         if self.verbose:
-            sys.stderr.write("start_doc %s\n" % str(attributes))
+            sys.stderr.write(f"start_doc {str(attributes)}\n")
         self.basekey = ""
         for a in attributes:
             if a[0] != "sysid":
@@ -44,7 +44,7 @@ class SGMLRefParser(SGMLParser):
 
     def start_seg(self, attributes):
         if self.verbose:
-            sys.stderr.write("start_seg %s\n" % str(attributes))
+            sys.stderr.write(f"start_seg {str(attributes)}\n")
         for a in attributes:
             if a[0] == "id":
                 self.segid = a[1]
@@ -54,16 +54,16 @@ class SGMLRefParser(SGMLParser):
         if self.verbose:
             sys.stderr.write("end_seg\n")
         if self.inSegment:
-            self.referenceSet.addReference("%s#%s" % (self.basekey, self.segid), self.lastReference)
+            self.referenceSet.addReference(f"{self.basekey}#{self.segid}", self.lastReference)
             self.inSegment = False
             self.lastReference = None
 
     def handle_data(self, data):
         if self.verbose:
-            sys.stderr.write("data: %s\n" % data)
+            sys.stderr.write(f"data: {data}\n")
         if self.inSegment:
             if self.lastReference:
-                self.lastReference += " %s" % (data.strip())
+                self.lastReference += f" {data.strip()}"
             else:
                 self.lastReference = data.strip()
             
@@ -81,16 +81,16 @@ def main():
     else:
         try:
             fpIn = open(args[0])
-        except IOError, ioError:
-            optionParser.error("couldn't open %s, %s" % (args[0], ioError[1]))
+        except IOError as ioError:
+            optionParser.error(f"couldn't open {args[0]}, {ioError}")
 
     if not options.outFilename:
         fpOut = sys.stdout
     else:
         try:
             fpOut = open(options.outFilename, "w")
-        except IOError, ioError:
-            optionParser.error("couldn't open %s for writing, %s" % (options.outFilename, ioError[1]))
+        except IOError as ioError:
+            optionParser.error(f"couldn't open {options.outFilename} for writing, {ioError}")
             
     referenceSet = ReferenceSet()
     parser = SGMLRefParser(referenceSet, options.verbose)
