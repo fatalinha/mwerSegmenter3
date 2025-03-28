@@ -13,7 +13,7 @@ def normalize(reference):
 
 class SGMLRefParser(SGMLParser):
     def __init__(self, sysid, targetLanguage, fpIn, fpOut, verbose):
-        SGMLParser.__init__(self)
+        super().__init__(self)
         self.sysid = sysid
         self.targetLanguage = targetLanguage
         self.fpIn = fpIn
