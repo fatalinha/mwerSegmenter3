@@ -16,7 +16,7 @@ if [ "$1" == "-h" ] ; then
          exit 0
 fi
 
-SCRIPTDIR="/home/${USER}/mwerSegmenter"
+SCRIPTDIR="/home/${USER}/mwerSegmenter3"
 sourcesgmfile=$1
 referencesgmfile=$2
 translationfile=$3
